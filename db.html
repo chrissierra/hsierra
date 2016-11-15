@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+
+	<script>
+	if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js')
+  .then(function(reg) {
+    // registration worked
+    console.log('Registration succeeded. Scope is ' + reg.scope);
+  }).catch(function(error) {
+    // registration failed
+    console.log('Registration failed with ' + error);
+  });
+}
+
+	const customerData = [
+  { ssn: "444-44-4444", name: "Bill", age: 35, email: "bill@company.com" },
+  { ssn: "555-55-5555", name: "Donna", age: 32, email: "donna@home.org" }
+];
+var request = window.indexedDB.open("MyTestDatabase3", 9);
+
+
+request.onerror = function(event) {
+  // Do something with request.errorCode!
+};
+request.onsuccess = function(event) {
+
+	console.log(event.type)
+	db = event.target.result;
+	var objectStore = db.transaction("customers").objectStore("customers");
+
+objectStore.openCursor().onsuccess = function(event) {
+  var cursor = event.target.result;
+  if (cursor) {
+    alert("Name for SSN " + cursor.key + " is " + cursor.value.name);
+    cursor.continue();
+  }
+  else {
+    alert("No more entries!");
+  }
+};
+  // Do something with request.result!
+};
+
+request.onupgradeneeded = function(event) { 
+  var db = event.target.result;
+  var objectStore = db.createObjectStore("customers", { keyPath: "ssn" });
+
+ objectStore.createIndex("name", "name", { unique: false });
+
+  // Create an index to search customers by email. We want to ensure that
+  // no two customers have the same email, so use a unique index.
+  objectStore.createIndex("email", "email", { unique: true });
+
+  // Use transaction oncomplete to make sure the objectStore creation is 
+  // finished before adding data into it.
+  objectStore.transaction.oncomplete = function(event) {
+    // Store values in the newly created objectStore.
+    var customerObjectStore = db.transaction("customers", "readwrite").objectStore("customers");
+    for (var i in customerData) {
+      customerObjectStore.add(customerData[i]);
+      var transaction = db.transaction(["customers"]);
+
+    }
+  };
+};
+
+
+	</script>
+	<a href="peo1.html">ir</a>
+</body>
+</html>

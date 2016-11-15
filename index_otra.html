@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <style>
+ 
+    </style>
+    <script>
+ 
+    </script>
+</head>
+ 
+<body>
+    <div id="dvData">
+        <table>
+            <tr>
+                <th>Primera columna</th>
+                <th>Segunda columna</th>
+                <th>Tercera columna</th>
+            </tr>
+            <tr>
+                <td>row1 Col1</td>
+                <td>row1 Col2</td>
+                <td>row1 Col3</td>
+            </tr>
+            <tr>
+                <td>row2 Col1</td>
+                <td>row2 Col2</td>
+                <td>row2 Col3</td>
+            </tr>
+            <tr>
+                <td>row3 Col1</td>
+                <td>row3 Col2</td>
+                <td>row3 Col3</td>
+            </tr>
+        </table>
+    </div>
+    <br/>
+    <input type="button" id="btnExport" value=" Export Table data into Excel " />
+ 
+    <script>
+    $("#btnExport").click(function(e) {
+        window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#dvData').html()));
+        e.preventDefault();
+    });
+    </script>
+ 
+</body>
+</html>
